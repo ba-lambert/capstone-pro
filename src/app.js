@@ -3,14 +3,14 @@ const express = require('express');
 const sendEmail = require('./controler/message.js')
 const app = express();
 const bodyParser = require("body-parser");
-const User = require('./models/user.model.js');
 app.use(bodyParser.json());
 
+
+// app.get("/",(req,res)=>{
+//     res.send('<button onClick=>(){console.log("error)}>Sign</button>')
+// })
 app.get('/email',sendEmail)
-// app.post('/email',)
-app.get("/",(req,res)=>{
-    res.send('<button onClick=>(){console.log("error)}>Sign</button>')
-})
+
 app.post('/users',async (req, res)=> {
     const user = req.body;
     let insertQuery = `insert into users(id,firstname, lastname,email) 
