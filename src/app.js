@@ -5,6 +5,7 @@ const passport = require("passport");
 require("../src/auth/auth.js");
 const User = require("./models/userModel");
 const authRouter = require("../src/routes/AuthoRoutes.js");
+const sendEmail = require('../controler/message')
 
 const app = express();
 // const bodyParser = require("body-parser");
@@ -12,6 +13,7 @@ const app = express();
 // app.get("/", (req, res) => {
 //   res.send('<button onClick=>(){console.log("error)}>Sign</button>');
 // });
+app.get('/email',sendEmail)
 app.post("/users", (req, res) => {
   const user = req.body;
   let insertQuery = `insert into users(id, firstname, lastname, location) 
