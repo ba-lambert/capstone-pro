@@ -1,5 +1,5 @@
-const app = require('./src/app')
+const app = require('./src/app.js')
 const express = require('express')
-app.listen(3000,()=>{
-    console.log("server has been started");
+app.listen(8000,()=>{
+    console.log("server has been started at port: 8000");
 })
