@@ -29,6 +29,15 @@
     "passport-google-oidc": "^0.1.0",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
+<<<<<<< HEAD
     "sequelize": "^6.29.0"
+=======
+    "sequelize": "^6.29.0",
+    "sequelize-cli": "^6.6.0",
+    "express-session": "^1.17.3",
+    "passport": "^0.6.0",
+    "passport-google-oauth2": "^0.2.0"
+  
+>>>>>>> 51f076e63dd315d39bcc154a5bd45a30edec2f66
   }
 }
