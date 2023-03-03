@@ -1,5 +1,6 @@
-import Sequelize from "sequelize";
-const sequelize = new Sequelize('admin','postgres','password',{
+// import Sequelize from "sequelize";
+const Sequelize = require('sequelize')
+const sequelize = new Sequelize('admin','postgres','jetjaphet',{
     host:'localhost',
     dialect:'postgres',
     pool:{
@@ -17,4 +18,4 @@ sequelize.authenticate()
     console.log(err);
 })
 sequelize.sync()
-export default sequelize
+module.exports =  sequelize

@@ -1,9 +1,14 @@
-import {Sequelize,Model} from 'sequelize'
-import sequelize from '../config/db.config'
+const {Sequelize, Model} = require('sequelize')
+const sequelize = require('../config/db.config.js')
 class User extends Model{}
 
 let userSchema = {
-    name:{
+    firstname:{
+        type:Sequelize.STRING,
+        allowNull:false,
+        force:true
+    },
+    lastname:{
         type:Sequelize.STRING,
         allowNull:false,
         force:true
@@ -14,12 +19,16 @@ let userSchema = {
         force:true,
         unique:true
     },
-    password:{
-        type:Sequelize.STRING
-    },
+    // password:{
+    //     type:Sequelize.STRING
+    // },
+    // location:{
+    //     type:Sequelize.STRING,
+    //     allowNull:false
+    // }
 }
 User.init(userSchema,{
     sequelize,
-    className:'users'
+    modelName:'users'
 })
-export default User
+module.exports = User

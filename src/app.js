@@ -1,15 +1,20 @@
-const client = require('./config/db')
+const client = require('./config/db.js')
 const express = require('express');
+const sendEmail = require('./controler/message.js')
 const app = express();
 const bodyParser = require("body-parser");
+const User = require('./models/user.model.js');
 app.use(bodyParser.json());
+
+app.get('/email',sendEmail)
+// app.post('/email',)
 app.get("/",(req,res)=>{
     res.send('<button onClick=>(){console.log("error)}>Sign</button>')
 })
-app.post('/users', (req, res)=> {
+app.post('/users',async (req, res)=> {
     const user = req.body;
-    let insertQuery = `insert into users(id, firstname, lastname, location) 
-                       values(${user.id}, '${user.firstname}', '${user.lastname}', '${user.location}')`
+    let insertQuery = `insert into users(id,firstname, lastname,email) 
+                       values( '${user.id}','${user.firstname}', '${user.lastname}','${user.email}')`
 
     client.query(insertQuery, (err, result)=>{
         if(!err){
