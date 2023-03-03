@@ -1,35 +1,63 @@
-const client = require('./config/db.js')
-const express = require('express');
-const sendEmail = require('./controler/message.js')
+const client = require("./config/db");
+const express = require("express");
+const session = require("express-session");
+const passport = require("passport");
+require("../src/auth/auth.js");
+const User = require("./models/userModel");
+const authRouter = require("../src/routes/AuthoRoutes.js");
+const sendEmail = require('../controler/message')
+
 const app = express();
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-
-
-// app.get("/",(req,res)=>{
-//     res.send('<button onClick=>(){console.log("error)}>Sign</button>')
-// })
+// const bodyParser = require("body-parser");
+// app.use(bodyParser.json());
+// app.get("/", (req, res) => {
+//   res.send('<button onClick=>(){console.log("error)}>Sign</button>');
+// });
 app.get('/email',sendEmail)
+app.post("/users", (req, res) => {
+  const user = req.body;
+  let insertQuery = `insert into users(id, firstname, lastname, location) 
+                       values(${user.id}, '${user.firstname}', '${user.lastname}', '${user.location}')`;
 
-app.post('/users',async (req, res)=> {
-    const user = req.body;
-    let insertQuery = `insert into users(id,firstname, lastname,email) 
-                       values( '${user.id}','${user.firstname}', '${user.lastname}','${user.email}')`
+  client.query(insertQuery, (err, result) => {
+    if (!err) {
+      res.send("Insertion was successful");
+    } else {
+      console.log(err.message);
+    }
+  });
+  client.end;
+});
+app.get("/users",async  (req, res) => {
+//   client.query(`Select * from 'Users'`, (err, result) => {
+//     if (!err) {
+//       res.send(result.rows);
+//     }
+//   });
+//   client.end;
+const users = await  User.findAll();
+console.log(users)
+res.send(users)
+});
+app.use(
+  session({
+    secret: "cats",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use("", authRouter);
+app.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/auth/google",
+  }),
+  (req, res) => {
+    res.redirect("/protected");
+  }
+);
 
-    client.query(insertQuery, (err, result)=>{
-        if(!err){
-            res.send('Insertion was successful')
-        }
-        else{ console.log(err.message) }
-    })
-    client.end;
-})
-app.get('/users', (req, res)=>{
-    client.query(`Select * from users`, (err, result)=>{
-        if(!err){
-            res.send(result.rows);
-        }
-    });
-    client.end;})
 client.connect();
-module.exports = app
+module.exports = app;
