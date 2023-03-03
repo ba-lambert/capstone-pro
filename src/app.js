@@ -5,14 +5,10 @@ const passport = require("passport");
 require("../src/auth/auth.js");
 const User = require("./models/userModel");
 const authRouter = require("../src/routes/AuthoRoutes.js");
-const sendEmail = require('../controler/message')
+const sendEmail = require('../src/controler/message.js')
+const isLoggedIn = require('../src/UserMiddleware/login.js')
 
 const app = express();
-// const bodyParser = require("body-parser");
-// app.use(bodyParser.json());
-// app.get("/", (req, res) => {
-//   res.send('<button onClick=>(){console.log("error)}>Sign</button>');
-// });
 app.get('/email',sendEmail)
 app.post("/users", (req, res) => {
   const user = req.body;
